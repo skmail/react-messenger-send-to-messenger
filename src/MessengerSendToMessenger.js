@@ -39,6 +39,7 @@ export default class MessengerSendToMessenger extends Component {
     version: PropTypes.string,
     language: PropTypes.string,
     debug: PropTypes.bool,
+    onLoad: PropTypes.func
   };
 
   static defaultProps = {
@@ -52,6 +53,9 @@ export default class MessengerSendToMessenger extends Component {
     version: '2.11',
     language: 'en_US',
     debug: false,
+    onLoad: () => {
+
+    }
   };
 
   componentDidMount() {
@@ -75,7 +79,7 @@ export default class MessengerSendToMessenger extends Component {
   }
 
   loadSdkAsynchronously() {
-    const { language, debug } = this.props;
+    const { language, debug, onLoad } = this.props;
     /* eslint-disable */
     (function(d, s, id) {
       var js,
@@ -88,6 +92,7 @@ export default class MessengerSendToMessenger extends Component {
       js.src = `https://connect.facebook.net/${language}/sdk${
         debug ? '/debug' : ''
       }.js`;
+      js.onload = onLoad
       fjs.parentNode.insertBefore(js, fjs);
     })(document, 'script', 'facebook-jssdk');
     /* eslint-enable */
